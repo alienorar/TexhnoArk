@@ -9,7 +9,17 @@ import { Suspense } from "react";
 import {
     SignIn,
     SignUp,
-    AdminPanel
+    AdminPanel,
+    Products,
+    Categories,
+    Brands,
+    SubCategories,
+    BrandCategories,
+    Ads,
+    Stock,
+    NotFound,
+    Settings,
+    ProductDetails
 } from '@modules'
 
 
@@ -18,10 +28,10 @@ const Index = () => {
         createRoutesFromElements(
             <Route>
                 <Route path="/" element={<App />}>
-                   <Route path="/" element={<SignUp />} />
+                    <Route path="/" element={<SignUp />} />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="admin-panel" element={<AdminPanel />}>
-                       {/* <Route index element={<Products />} />
+                        <Route index element={<Products />} />
                         <Route path="product-details/:id" element={<ProductDetails />} />
                         <Route path="categories" element={<Categories />} />
                         <Route path="categories/:id" element={<SubCategories />} />
@@ -29,10 +39,10 @@ const Index = () => {
                         <Route path="brand-categories" element={<BrandCategories />} />
                         <Route path="ads" element={<Ads />} />
                         <Route path="stock" element={<Stock />} />
-                        <Route path="settings" element={<Settings />} /> */}
-                    </Route> 
+                        <Route path="settings" element={<Settings />} />
+                    </Route>
                 </Route>
-                {/* <Route path="*" element={<NotFound />}></Route> */}
+                <Route path="*" element={<NotFound />}></Route>
             </Route>
         )
     )
