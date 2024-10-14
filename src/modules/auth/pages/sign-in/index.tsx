@@ -4,18 +4,12 @@ import LoginImg from '../../../../assets/login-img.jpg';
 
 const Index: React.FC = () => {
   const { Link } = Typography;
-  // const navigate = useNavigate();
   const { mutate } = useSignInMutation()
 
   const onFinish = async (values: any): Promise<void> => {
     const response = await (values)
     mutate(response)
-    // const access_token = response?.data?.data?.tokens?.access_token;
-    // const id = response?.data?.data?.data?.id
-    // localStorage.setItem("access_token", access_token);
-    // localStorage.setItem("id", id);
-    // navigate("/admin-panel");
-
+ 
   };
 
   return (
