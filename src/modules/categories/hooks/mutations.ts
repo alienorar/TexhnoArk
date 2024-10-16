@@ -8,11 +8,10 @@ export function useCreateCategory() {
     return useMutation({
         mutationFn: (data: CategoryType) => createCategory(data),
         onSuccess: (data) => {
-            // console.log(data);
-            openNotification("success", "Success", data?.data?.data?.message)
+            openNotification("success", "Success", data?.data?.message)
         },
-        onError: (data) => {
-            console.log(data);
+        onError: (error) => {
+            openNotification("error", "Error",error?.message)
         }
 
     })

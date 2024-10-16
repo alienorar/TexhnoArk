@@ -19,16 +19,16 @@ const CategoriesModal = ({ open, handleClose, update, }: CategoryModal) => {
         }
     }, [open, update, form])
 
-    const onFinish = async (values: CategoryType) => {
+    const onFinish = (values: CategoryType) => {
         if (update?.id) {
             const payload = { ...values, id: update?.id }
-            await updateMutate(payload, {
+            updateMutate(payload, {
                 onSuccess: () => {
                     handleClose()
                 }
             })
         } else {
-            await createMutate(values, {
+            createMutate(values, {
                 onSuccess: () => {
                     handleClose()
                 }

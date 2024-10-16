@@ -66,7 +66,7 @@ const Index = () => {
     setUpdate({})
   };
 
-  // =========== edit Data ===========
+  // =========== EDIT DATA ===========
   const editData = (item: any) => {
     setUpdate(item);
     showModal()
@@ -78,6 +78,13 @@ const Index = () => {
 
   };
 
+  // ========== SINGLE PAGE ===========
+  const handleView = (id: number | undefined) => {
+    navigate(`/admin-panel/categories/${id}`);
+  }
+
+
+  // ========== GET CATEGORIES ===========
 const getData = ()=>{
   if (data?.data?.data?.categories) {
     setTableData(data.data.data.categories);
@@ -117,7 +124,7 @@ const getData = ()=>{
             title={"Delete this Brands ?"}
           />
           <Tooltip title="view">
-            <Button><EnterOutlined className="text-[18px]" /></Button>
+            <Button onClick={() => handleView(record.id.toString())}><EnterOutlined className="text-[18px]" /></Button>
           </Tooltip>
         </Space>
       ),
