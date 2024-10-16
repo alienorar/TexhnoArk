@@ -133,7 +133,7 @@ const Index: React.FC = () => {
                                 </Button>
                                 <Typography style={{ marginTop: "10px", }} />
                                 Already have an account?
-                                <Link href="./sign-in" style={{ marginLeft: "10px", fontSize: "18px", fontFamily: "serif" }}>
+                                <Link href="/sign-in" style={{ marginLeft: "10px", fontSize: "18px", fontFamily: "serif" }}>
                                     Sign In
                                 </Link>
                             </Form.Item>
