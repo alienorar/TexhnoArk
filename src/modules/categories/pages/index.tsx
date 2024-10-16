@@ -87,7 +87,7 @@ const getData = ()=>{
 
   useEffect(() => {
     getData()
-  }, [params]);
+  }, [data]);
 
 
   const columns = [
