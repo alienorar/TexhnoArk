@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { Button, Space, Tooltip } from "antd";
 import { EditOutlined, EnterOutlined } from '@ant-design/icons';
-import { ConfirmDelete, GlobalTable } from "@components";
+import { ConfirmDelete, GlobalSearch, GlobalTable } from "@components";
 import { useGetCategory } from "../hooks/queries";
 import { useLocation, useNavigate } from "react-router-dom";
-// import { openNotification } from "@utils";
-// import { ParamsType } from "@types";
+import CategoriesModal from "./modal";
+import { useDeleteCategory } from "../hooks/mutations";
+import { ParamsType } from "@types";
 const Index = () => {
   const [tableData, setTableData] = useState([]);
   const [total, setTotal] = useState();
+  const [update, setUpdate] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { search } = useLocation()
   const navigate = useNavigate()
   const [params, setParams] = useState({
@@ -18,7 +21,7 @@ const Index = () => {
   });
 
   const { data } = useGetCategory(params);
-
+  const { mutate } = useDeleteCategory()
   useEffect(() => {
     const params = new URLSearchParams(search)
     let page = Number(params.get("page")) || 1;
@@ -32,9 +35,8 @@ const Index = () => {
     }))
   }, [search])
 
-  // console.log(tableData);
 
-  // ============ Table ==============
+  // ============ TABLE ==============
   const handleTableChange = (pagination: any) => {
     const { current, pageSize } = pagination
     setParams((prev) => ({
@@ -48,25 +50,44 @@ const Index = () => {
     searchParams.set('limit', `${pageSize}`)
     navigate(`?${searchParams}`)
   }
-  // const updateParams = (newParams: ParamsType) => {
-  //   setParams((prev) => ({
-  //     ...prev,
-  //     ...newParams
-  //   }));
-  // };
-
-  // ======== Delete Data ========= 
-  const deleteData = async () => {
-  console.log("delete");
-  
+  const updateParams = (newParams: ParamsType) => {
+    setParams((prev) => ({
+      ...prev,
+      ...newParams
+    }));
   };
 
+  //  ============ MODAL ===========
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setUpdate({})
+  };
+
+  // =========== edit Data ===========
+  const editData = (item: any) => {
+    setUpdate(item);
+    showModal()
+  };
+
+  // ======== DELETE DATA ========= 
+  const deleteData = (id: number | string) => {
+    mutate(id)
+
+  };
+
+const getData = ()=>{
+  if (data?.data?.data?.categories) {
+    setTableData(data.data.data.categories);
+    setTotal(data.data.data.count)
+  }
+}
+
   useEffect(() => {
-    if (data?.data?.data?.categories) {
-      setTableData(data.data.data.categories);
-      setTotal(data.data.data.count)
-    }
-  }, [data]);
+    getData()
+  }, [params]);
 
 
   const columns = [
@@ -88,7 +109,7 @@ const Index = () => {
       key: 'action',
       render: (record: any) => (
         <Space size="middle">
-          <Tooltip title="edit"><Button><EditOutlined className="text-[18px]" /></Button></Tooltip>
+          <Tooltip title="edit"><Button><EditOutlined className="text-[18px]" onClick={() => editData(record)} /></Button></Tooltip>
           <ConfirmDelete
             id={record.id}
             onConfirm={deleteData}
@@ -105,6 +126,21 @@ const Index = () => {
 
   return (
     <>
+      <div className="flex items-center justify-between py-4">
+        <GlobalSearch updateParams={updateParams} placeholder={"Search Categories"} />
+        <div className="flex gap-2 items-center ">
+          <Button type="primary" size="large" style={{ maxWidth: 160, minWidth: 80, backgroundColor: "orangered", color: "white", height: 40 }} onClick={showModal}>
+            Create
+          </Button>
+
+        </div>
+      </div>
+      <CategoriesModal
+        open={isModalOpen}
+        handleClose={handleClose}
+        update={update}
+
+      />
       <GlobalTable
         data={tableData}
         columns={columns}

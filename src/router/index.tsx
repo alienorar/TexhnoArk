@@ -5,7 +5,6 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import App from '../App.tsx';
-import { Suspense } from "react";
 import {
     SignIn,
     SignUp,
@@ -21,7 +20,6 @@ import {
     Settings,
     ProductDetails
 } from '@modules'
-
 
 const Index = () => {
     const router = createBrowserRouter(
@@ -46,9 +44,7 @@ const Index = () => {
             </Route>
         )
     )
-    return <Suspense fallback={<div className="w-full h-[80vh] flex justify-center items-center m-auto"><p className="text-orange-400 text-[24px]">Loading...</p> <div className="loader"></div></div>}>
-        <RouterProvider router={router} />
-    </Suspense>;
+    return <RouterProvider router={router} />;
 }
 export default Index;
 

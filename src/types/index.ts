@@ -13,7 +13,6 @@ search:string,
 export interface GlobalModalProps {
     open?: boolean,
     handleClose: () => void,
-    onOk?: () => void,
     getData?: () => void,
 }
 
@@ -30,4 +29,10 @@ export interface ConfirmType {
     onCancel: () => void,
     id: number | undefined,
     title: string
+}
+
+// ============GLOBAL SEARCH=============
+export interface SearchType {
+    updateParams: (params: ParamsType) => void;
+    placeholder?: string;
 }
