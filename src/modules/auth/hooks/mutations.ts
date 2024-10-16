@@ -36,9 +36,6 @@ export function useSignInMutation() {
 export function useSignUpMutation() {
     return useMutation({
         mutationFn: (data: SignUp) => signUp(data),
-
-
-
     })
 }
 
