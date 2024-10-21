@@ -1,9 +1,7 @@
-import { Modal, Form, Input, Button, Select } from 'antd';
+import { Modal, Form, Input, Button,} from 'antd';
 import { useEffect } from 'react';
 import { SubCreate, SubModalprops } from '../types';
 import { useCreateSubCategory ,useUpdateSubCategory} from '../hooks/mutations';
-
-const { Option } = Select;
 
 const SubCategory = ({ open, handleClose, update, parent_category_id }: SubModalprops) => {
     const [form] = Form.useForm();
