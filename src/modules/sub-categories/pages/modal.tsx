@@ -1,12 +1,11 @@
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { useEffect } from 'react';
 import { SubCreate, SubModalprops } from '../types';
-import { useCreateSubCategory, useUpdateSubCategory } from '../hooks/mutations';
-// import { subCategory } from '@service';
+import { useCreateSubCategory ,useUpdateSubCategory} from '../hooks/mutations';
 
 const { Option } = Select;
 
-const SubCategory = ({ open, handleClose, update, categories, }: SubModalprops) => {
+const SubCategory = ({ open, handleClose, update, parent_category_id }: SubModalprops) => {
     const [form] = Form.useForm();
     const {mutate:createMutate, isPending:isCreating} = useCreateSubCategory()
     const {mutate:updateMutate, isPending:isUpdating} = useUpdateSubCategory()
@@ -31,7 +30,8 @@ const SubCategory = ({ open, handleClose, update, categories, }: SubModalprops) 
         }
     })
    }else{
-       createMutate(values, {
+    const payload = {...values,parent_category_id:parent_category_id}
+       createMutate(payload, {
            onSuccess: () => {
                handleClose()
            }
@@ -70,32 +70,7 @@ const SubCategory = ({ open, handleClose, update, categories, }: SubModalprops) 
                 >  <Input className='h-10 border-[0.5px] px-3 ' />
                 </Form.Item>
 
-                <Form.Item
-                    name="parent_category_id"
-                    label="Parent Category"
-                    labelCol={{ span: 24 }}
-                    wrapperCol={{ span: 24 }}
-                    style={{ marginBottom: '8px' }}
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Enter category name!',
-                        },
-                    ]}>
-                    <Select
-                        showSearch
-                        placeholder="Select a Category"
-                        className='h-10 border-[0.5px] rounded-lg '
-                    >
-                        {categories?.map((item: any, index: number) => (
-                            <Option value={parseInt(item.id)} key={index}>
-                                {item.name}
-                            </Option>
-
-                        ))}
-
-                    </Select>
-                </Form.Item>
+              
 
                 <Form.Item>
                     <Button

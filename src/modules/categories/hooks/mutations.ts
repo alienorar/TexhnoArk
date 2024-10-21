@@ -22,7 +22,7 @@ export function useUpdateCategory() {
     return useMutation({
         mutationFn: (data: CategoryType) => updateCategory(data),
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
             openNotification("success", "Success", data?.data?.data?.message)
         },
         onSettled: (_, error, variables) => {

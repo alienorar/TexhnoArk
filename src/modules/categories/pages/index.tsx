@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CategoriesModal from "./modal";
 import { useDeleteCategory } from "../hooks/mutations";
 import { ParamsType } from "@types";
+import { CategoryType } from "../types";
 const Index = () => {
   const [tableData, setTableData] = useState([]);
   const [total, setTotal] = useState();
@@ -67,7 +68,7 @@ const Index = () => {
   };
 
   // =========== EDIT DATA ===========
-  const editData = (item: any) => {
+  const editData = (item:CategoryType) => {
     setUpdate(item);
     showModal()
   };
@@ -85,12 +86,12 @@ const Index = () => {
 
 
   // ========== GET CATEGORIES ===========
-const getData = ()=>{
-  if (data?.data?.data?.categories) {
-    setTableData(data.data.data.categories);
-    setTotal(data.data.data.count)
+  const getData = () => {
+    if (data?.data?.data?.categories) {
+      setTableData(data.data.data.categories);
+      setTotal(data.data.data.count)
+    }
   }
-}
 
   useEffect(() => {
     getData()
@@ -157,7 +158,7 @@ const getData = ()=>{
           pageSize: params.limit,
           total: total,
           showSizeChanger: true,
-          pageSizeOptions: ['2', '3', '4', '6']
+          pageSizeOptions: ['2', '4', '6', '10']
         }}
       /></>
   );

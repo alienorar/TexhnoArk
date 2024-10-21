@@ -6,7 +6,7 @@ import { GlobalTable, GlobalSearch } from '@components';
 import { ConfirmDelete } from "@components";
 import SubCategory from './modal'
 import { ParamsType } from "@types";
-import { useGetCategory, useGetSubCategory } from "../hooks/queries";
+import { useGetSubCategory } from "../hooks/queries";
 
 
 const Index = () => {
@@ -16,9 +16,7 @@ const Index = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [update, setUpdate] = useState({});
     const [total, setTotal] = useState(0);
-    const [categories, setCategories] = useState([]);
     const { search } = useLocation()
-    const { data: category } = useGetCategory()
     const { data } = useGetSubCategory(parent_category_id)
     const navigate = useNavigate()
     const [params, setParams] = useState({
@@ -64,8 +62,7 @@ const Index = () => {
         }));
     };
 
-
-    //  ============ Modal ===========
+    //  ============ MODAL ===========
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -75,16 +72,6 @@ const Index = () => {
         setUpdate({})
     };
 
-    // ============ GET CATEGORIES ============
-    const getCategories = async () => {
-        if (category?.data?.data?.categories) {
-            setCategories(category.data.data.categories);
-        }
-    };
-
-    useEffect(() => {
-        getCategories();
-    }, [parent_category_id]);
 
     // ============ GET SUB CATEGORIES ============
     const getData = async () => {
@@ -96,7 +83,7 @@ const Index = () => {
 
     useEffect(() => {
         getData();
-    }, [parent_category_id]);
+    });
 
     // ===========EDIT DATA ===========
     const editData = (item: any) => {
@@ -108,8 +95,8 @@ const Index = () => {
 
     // ========DELETE DATA =========
     const deleteData = async (id: number | string) => {
-       console.log("delete",id);
-       
+        console.log("delete", id);
+
     };
 
 
@@ -150,7 +137,7 @@ const Index = () => {
                 open={isModalOpen}
                 handleClose={handleClose}
                 update={update}
-                categories={categories}
+                parent_category_id={parent_category_id}
             />
             <div className="flex items-center justify-between py-4">
                 <GlobalSearch updateParams={updateParams} placeholder={"Search Categories"} />

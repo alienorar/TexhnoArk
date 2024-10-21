@@ -1,16 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCategory, getSubCategory } from "../service";
+// import { ParamsType } from "@types";
 
-// ============GET CATEGORY============
+// ============= GET CATEGORIES ============
 export function useGetCategory() {
     return useQuery({
-        queryKey: ["category"],
-        queryFn: () => getCategory()
+        queryKey:["category"],
+        queryFn:()=> getCategory()
     })
 }
-export function useGetSubCategory(parent_category_id:string|number) {
-    return useQuery({
-        queryKey: ["category",parent_category_id],
-        queryFn: () => getSubCategory(parent_category_id)
-    })
+// ============= GET SUB CATEGORIES ============
+export function useGetSubCategory(parent_category_id:number){
+return useQuery({
+    queryKey:["sub-category"],
+    queryFn:()=> getSubCategory(parent_category_id)
+})
 }
+

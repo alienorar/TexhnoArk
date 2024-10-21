@@ -42,7 +42,21 @@ const PopconfirmDelete = ({ onConfirm, onCancel, id, title }: ConfirmType) => {
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
                 okButtonProps={{
-                    style: { backgroundColor: 'orangered', borderColor: 'orangered' },
+                    style: {
+                        backgroundColor: 'orangered',
+                        borderColor: 'orangered',
+                        color: 'white',
+                        marginLeft: "10px",
+                        width: "70px"
+                    },
+                }}
+                cancelButtonProps={{
+                    style: {
+                        backgroundColor: 'gray',
+                        borderColor: 'gray',
+                        color: 'white',
+                        width: "70px"
+                    },
                 }}
                 okText="Delete"
                 cancelText="Cancel"

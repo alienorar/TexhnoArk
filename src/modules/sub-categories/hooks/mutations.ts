@@ -1,36 +1,40 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createSubCategory, updateSubCategory } from "../service";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { SubCreate } from "../types";
+import { createSubCategory, updateSubCategory } from "../service";
 import { openNotification } from "@utils";
 
-// ============CREATE SUB CATEGORY============
+// ===============CREATE SUB CATEGORY =============
 export function useCreateSubCategory() {
+    const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (data: SubCreate) => createSubCategory(data),
         onSuccess: (data) => {
-            openNotification("success", "Success", data?.data?.message)
-
+            openNotification("success", "Success", data?.data?.data?.message)
         },
-        onError: (error) => {
-            openNotification("error", "Error", error?.message)
+        onSettled: (_, error) => {
+            if (error) {
+                openNotification("error", "Error", error.message)
+            } else {
+                queryClient.invalidateQueries({ queryKey: ["sub-category"] })
+            }
         }
     })
 }
 
-// ============UPDATE SUB CATEGORY============
+// ============ UPDATE SUB CATEGORY ===========
 export function useUpdateSubCategory() {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (data: SubCreate) => updateSubCategory(data),
         onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
             openNotification("success", "Success", data?.data?.data?.message)
         },
-        onSettled: (_, error, variables) => {
+        onSettled: (_,error) => {
             if (error) {
-                openNotification("error", "Error", error.message)
+                openNotification("error", "Error", error?.message)
             } else {
-                queryClient.invalidateQueries({ queryKey: ["category", { id: variables.id }] })
+                queryClient.invalidateQueries({ queryKey:["sub-category"] })
             }
         }
     })

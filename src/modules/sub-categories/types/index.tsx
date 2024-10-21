@@ -8,5 +8,5 @@ export interface SubCreate {
 }
 export interface SubModalprops extends GlobalModalProps {
     update: SubCreate,
-    categories: any[]
+    parent_category_id?: number,
 }
