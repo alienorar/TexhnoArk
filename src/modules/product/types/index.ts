@@ -4,7 +4,7 @@ import { CategoryType } from "../../categories/types";
 // =============PRODUCT TYPE =============
 export interface ProductType {
     name?:string,
-    price?:string,
+    price?:number|string,
     category_id?:number|string,
     brand_id?:number|string,
     brand_category_id?:number|string,

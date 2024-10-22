@@ -5,8 +5,7 @@ import { useGetBrand, useGetBrandCategory, useGetCategory } from '../hooks/queri
 import { CategoryType } from '../../categories/types';
 import { BrandType } from '../../brands/types';
 import { BrandCategoryType } from '../../brand-categories/types';
-// import { products, brand, brandCategory } from '@service';
-// import { ProductCreate, ProductModalProps } from '@types';
+import { useCreateProducts, useUpdateProducts } from '../hooks/mutations';
 const { Option } = Select;
 
 const Index = ({ open, handleClose, update }: ProductModalProps) => {
@@ -16,7 +15,9 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
     const [brandId, setBrandId] = useState<number | undefined>()
     const { categories } = useGetCategory().data?.data?.data || {}
     const { brands } = useGetBrand(categoryId || 0).data || {}
-    const { brandCategories } = useGetBrandCategory(brandId || 0).data?.data?.data || {}
+    const { brandCategories } = useGetBrandCategory(brandId || 0).data || {}
+    const { mutate: createMutate, isPending: isCreating } = useCreateProducts()
+    const { mutate: updateMutate, isPending: isUpdating } = useUpdateProducts()
     // console.log(brands, "ndjkwdkej");
 
 
@@ -35,7 +36,7 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
         if (update?.id) {
             form.setFieldsValue({
                 name: update?.name,
-                price: update?.price,
+                price:Number(update?.price),
                 category_id: update?.category_id,
                 brand_id: update?.brand_id,
                 brand_category_id: update?.brand_category_id,
@@ -55,36 +56,29 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
     };
 
     const onFinish = async (values: ProductType) => {
-        let formData: any = new FormData();
+        const formData: any = new FormData();
         formData.append("name", values?.name);
-        formData.append("price", values?.price);
+        formData.append("price",values?.price);
         formData.append("category_id", values?.category_id);
         formData.append("brand_id", values?.brand_id);
         formData.append("brand_category_id", values?.brand_category_id);
         formData.append("files", file);
 
-        // try {
-        //     if (update?.id) {
-        //         const res: any = await products.update(update.id, formData);
-        //         if (res.status === 200) {
-        //             handleClose()
-        //             if (getData) {
-        //                 getData()
-        //             }
-        //         }
-        //     } else {
-        //         const res: any = await products.create(formData);
-        //         if (res.status === 201) {
-        //             handleClose()
-        //             if (getData) {
-        //                 getData()
-        //             }
+        if (update?.id) {
+            const payload = { ...values, id: update?.id }
+            updateMutate(payload, {
+                onSuccess: () => {
+                    handleClose()
+                }
+            })
+        } else {
+            createMutate(formData, {
+                onSuccess: () => {
+                    handleClose()
+                }
+            })
+        }
 
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
     };
 
     return (
@@ -164,6 +158,7 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
                             <Select
                                 className='border-[1.4px] rounded-lg h-10 '
                                 onChange={(value) => handleBrandChange(value)}
+                                disabled={!categoryId}
                             >
                                 {brands?.map((item: BrandType, index: number) => (
                                     <Option value={item.id} key={index}>
@@ -187,7 +182,7 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
                         >
                             <Select
                                 className='border-[1.4px] rounded-lg h-10 '
-
+                                disabled={!brandId}
                             >
                                 {brandCategories?.map((item: BrandCategoryType, index: number) => (
                                     <Option value={item.id} key={index}>
@@ -196,22 +191,26 @@ const Index = ({ open, handleClose, update }: ProductModalProps) => {
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Form.Item
-                            name="file"
-                            label="File"
-                            labelCol={{ span: 24 }}
-                            wrapperCol={{ span: 24 }}
-                            rules={[
-                                { required: true, message: 'Upload file!' },
-                            ]}>
-                            <input type="file" height={80} onChange={handleFileChange} />
-                        </Form.Item>
+                        {
+                            update?.id ? "" :
+                                <Form.Item
+                                    name="file"
+                                    label="File"
+                                    labelCol={{ span: 24 }}
+                                    wrapperCol={{ span: 24 }}
+                                    rules={[
+                                        { required: true, message: 'Upload file!' },
+                                    ]}>
+                                    <input type="file" height={80} onChange={handleFileChange} />
+                                </Form.Item>
+                        }
                     </div>
 
                     <Form.Item>
                         <Button
                             block
                             htmlType="submit"
+                            loading={isCreating || isUpdating}
                             style={{
                                 backgroundColor: "#e35112",
                                 color: "white",

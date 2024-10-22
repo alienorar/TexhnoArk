@@ -7,6 +7,7 @@ import { GlobalTable, GlobalSearch, ConfirmDelete } from '@components';
 import Product from "./modal"
 import { ParamsType } from "@types";
 import { useGetProducts } from "../hooks/queries";
+import { useDeleteProducts } from "../hooks/mutations";
 
 
 const Index = () => {
@@ -16,6 +17,7 @@ const Index = () => {
   const [total, setTotal] = useState();
   const { search } = useLocation()
   const navigate = useNavigate()
+  const { mutate } = useDeleteProducts()
   const [params, setParams] = useState({
     search: "",
     limit: 2,
@@ -90,7 +92,7 @@ const Index = () => {
 
   // ======== DELETE PRODUCTS ============== 
   const deleteData = async (id: number) => {
-    console.log(id);
+    mutate(id)
 
   };
 
@@ -101,7 +103,7 @@ const Index = () => {
   };
 
 
-  
+
 
   const columns = [
     {

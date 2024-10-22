@@ -26,7 +26,7 @@ export async function getBrandCategoryById(id: number | undefined) {
 
 // ============CREATE PRODUCTS============
 export async function createProducts(data:any) {
-    return await axiosInstance.get("/products/create",data)
+    return await axiosInstance.post("/products/create",data)
 }
 
 // ============UPDATE PRODUCT=============
@@ -36,4 +36,9 @@ export async function updateProducts(data:ProductType) {
     const response = await axiosInstance.patch(`/products/update/${id}`, data)
     return response.data
 
+}
+// ============DELETE PRODUCT=============
+export async function deletePoducts(id: number | string) {
+    const response = await axiosInstance.delete(`/products/delete/${id}`,)
+    return response?.data
 }
