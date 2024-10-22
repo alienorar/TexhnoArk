@@ -1,4 +1,3 @@
-// import { lazy } from 'react';
 import loadable from '@loadable/component'
 import { Loading } from '@components';
 

@@ -22,7 +22,6 @@ export function useUpdateCategory() {
     return useMutation({
         mutationFn: (data: CategoryType) => updateCategory(data),
         onSuccess: (data) => {
-            // console.log(data);
             openNotification("success", "Success", data?.data?.data?.message)
         },
         onSettled: (_, error, variables) => {
@@ -41,7 +40,6 @@ export function useDeleteCategory() {
     return useMutation({
         mutationFn: (id:number|string) => deleteCategory(id),
         onSuccess: (data) => {
-            console.log(data);
             openNotification("success", "Success", data?.data?.data?.message)
         },
         onSettled: (_, error) => {
