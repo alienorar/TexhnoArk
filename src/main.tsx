@@ -4,7 +4,6 @@ import Root from './router/index.tsx'
 import { ConfigProvider } from 'antd';
 import './index.css'
 import { QueryClientProvider,QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 const queryClient = new QueryClient ({
   defaultOptions:{queries:{retry:2, retryDelay:1000}},
 })
@@ -19,7 +18,6 @@ createRoot(document.getElementById("root")!).render(
     }}
   >
     <Root />
-    <ReactQueryDevtools initialIsOpen={false}/>
   </ConfigProvider>
     </QueryClientProvider>
 );

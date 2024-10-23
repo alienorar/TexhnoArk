@@ -5,17 +5,23 @@ import { openNotification } from "@utils";
 
 // ============CREATE CATEGORY============
 export function useCreateCategory() {
+    const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (data: CategoryType) => createCategory(data),
         onSuccess: (data) => {
             openNotification("success", "Success", data?.data?.message)
         },
-        onError: (error) => {
-            openNotification("error", "Error",error?.message)
+        onSettled: (_, error, variables) => {
+            if (error) {
+                openNotification("error", "Error", error.message)
+            } else {
+                queryClient.invalidateQueries({ queryKey: ["category", { id: variables.id }] })
+            }
         }
 
     })
 }
+
 // ============UPDATE CATEGORY============
 export function useUpdateCategory() {
     const queryClient = useQueryClient()
@@ -38,7 +44,7 @@ export function useUpdateCategory() {
 export function useDeleteCategory() {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (id:number|string) => deleteCategory(id),
+        mutationFn: (id: number | string) => deleteCategory(id),
         onSuccess: (data) => {
             openNotification("success", "Success", data?.data?.data?.message)
         },

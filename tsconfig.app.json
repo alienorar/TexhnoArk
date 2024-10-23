@@ -11,8 +11,6 @@
       "@api":["./src/api"],
       "@types":["./src/types"],
       "@components":["./src/components"],
-      // "@modals":["./src/modals"],
-      // "@confirmation":["./src/confirmation"],
       "@utils":["./src/utils"],
     },
 
