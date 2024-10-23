@@ -8,6 +8,7 @@ import { Button, Layout, Menu, Modal, theme } from 'antd';
 import { NavLink, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { adminRights } from '../../router/routes';
 import MainLogo from '../../assets/texnoark-logo.svg';
+import { removeAccesToken } from '../../utils/token-service';
 
 const { Header, Sider, Content } = Layout;
 const { Item } = Menu;
@@ -21,7 +22,7 @@ const App = () => {
 
     const handleLogout = () => {
         navigate('/sign-in');
-        localStorage.removeItem("access_token")
+        removeAccesToken()
     };
 
 

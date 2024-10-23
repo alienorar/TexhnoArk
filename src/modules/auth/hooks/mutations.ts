@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../service";
 import { SignIn, SignUp } from "../types";
 import { openNotification } from "@utils";
+import { saveAccesToken } from "../../../utils/token-service";
 
 
 export function useSignInMutation() {
@@ -19,9 +20,7 @@ export function useSignInMutation() {
 
             const id = response.data?.data?.data?.id;
             // console.log(id, "hdejhhw");
-
-
-            localStorage.setItem("access_token", access_token);
+            saveAccesToken(access_token);
             localStorage.setItem("id", id);
             navigate("/admin-panel");
         },
