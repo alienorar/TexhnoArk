@@ -50,7 +50,7 @@ export default tseslint.config({
 ```
 
 
-1.add .env file
+1.add .env file ✅
 2.make token service func to utils 
 3.replace localstorage with cookie
 4.add product details page

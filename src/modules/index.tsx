@@ -1,12 +1,7 @@
 import loadable from '@loadable/component'
 import { Loading } from '@components';
-
-const SignIn = loadable(() => import('./auth/pages/sign-in'), {
-  fallback: <Loading />
-});
-const SignUp = loadable(() => import('./auth/pages/sign-up'), {
-  fallback: <Loading />
-});
+import SignIn from './auth/pages/sign-in'
+import SignUp from './auth/pages/sign-up'
 const AdminPanel = loadable(() => import('./admin-panel'), {
   fallback: <Loading />
 });
