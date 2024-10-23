@@ -3,8 +3,6 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useEffect } from 'react';
 import { BrandCategoryModal, BrandCategoryType } from '../types';
 import { useCreateBrandCategory, useUpdateBrandCategory } from '../hooks/mutations';
-// import { brandCategory } from '@service';
-// import { BrandCategoryCreate, BrandCategoryModal, } from '@types';
 const { Option } = Select;
 
 const Index = ({ open, handleClose, update, parentBrand, }: BrandCategoryModal) => {
@@ -21,7 +19,6 @@ const Index = ({ open, handleClose, update, parentBrand, }: BrandCategoryModal) 
             form.resetFields()
         }
     });
-
     const onFinish = async (values: BrandCategoryType) => {
         if (update?.id) {
             const payload = { ...values, id: update?.id }
