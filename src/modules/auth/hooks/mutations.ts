@@ -12,7 +12,6 @@ export function useSignInMutation() {
         mutationFn: (data: SignIn) => signIn(data),
         onSuccess: (response: any) => {
             console.log(response);
-
             openNotification('success', "Success", response?.data?.message);
             console.log(response?.data?.message);
             const access_token = response?.data?.data?.tokens?.access_token;
